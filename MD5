@@ -1,0 +1,11 @@
+023e5bb98ef0af5a3f11c92eae89cea6 *DESCRIPTION
+d54b836f9414f11d9242276d7bf4acb6 *NAMESPACE
+03a1aa653069c6e1b8d9cbae05bf95c4 *R/bugs.r
+cb2485aa548bb20b4539a898053c72a4 *R/rgexf.r
+c925009a28602d2265253ad07c1ede0e *R/rgexfmethods.r
+a3239cc045ac6734771c056aa96d3fdd *demo/00Index
+b9d4dffe358955e0e4c6f68c84f4b6de *demo/gexf.R
+953ad38d4ec4eac594e5db8b15b599fd *inst/NEWS.Rd
+19b4405c818fa07a3dc21ac6f3e162da *man/checkTimes.Rd
+f9a016e4fb810b72d2961ee01696bee4 *man/gexf.Rd
+7206f6bbcf6ef20ec80a6c3db2fc4ba6 *man/rgexf.Rd
