@@ -2,7 +2,12 @@ importFrom(XML)
 
 export(.addNodesEdges, .defAtt)
 export(checkTimes)
-export(gexf)
+export(write.gexf)
+export(read.gexf)
+export(new.gexf.graph)
+export(add.gexf.node, rm.gexf.node, add.gexf.edge, rm.gexf.edge)
+export(edge.list)
 
 # Methods
 S3method(print, gexf)
+S3method(summary, gexf)
