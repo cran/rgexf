@@ -4,11 +4,11 @@
 \description{\code{write.gexf} takes a \code{node} matrix (or dataframe) and an \code{edge} matrix (or dataframe) and creates a \code{gexf} object containing a data-frame representation and a gexf representation of a graph.}
 \usage{
 write.gexf(
-  nodes, edges, 
+  nodes, edges, edgesLabel = NULL, edgesId = NULL,
   edgesAtt = NULL, edgesWeight = NULL, 
   edgesVizAtt = list(
     color=NULL, 
-    thickness=NULL, 
+    size=NULL, 
     shape=NULL
   ),
   nodesAtt = NULL,
@@ -33,9 +33,11 @@ write.gexf(
 \arguments{
   \item{nodes}{It contains two columns. First column contains nodes's id and the second one its \dQuote{label} (class: matrix or data frame).}
   \item{edges}{It contains two columns. The first one has the \dQuote{source} and the second one has the \dQuote{target} (class: (matrix or data frame both based on nodes ids))}
+  \item{edgesId}{One column data.frame/matrix or vector.}
+  \item{edgesLabel}{One column data.frame/matrix or vector.}
   \item{edgesAtt}{A dataframe with one or more columns representing edges attributes}
   \item{edgesWeight}{A numeric vector containing edges weights}
-  \item{edgesVizAtt}{List of three or less viz attributes such as color, thickness and shape of the edges (see details)}
+  \item{edgesVizAtt}{List of three or less viz attributes such as color, size (thickness) and shape of the edges (see details)}
   \item{nodesAtt}{A dataframe with one or more columns representing nodes attributes}
   \item{nodesVizAtt}{List of four or less viz attributes such as color, position, size and shape of the nodes (see details)}
   \item{nodeDynamic}{A two columns matrix or dataframe. The first column indicates the time at which a given node starts; the second one shows when it ends. The matrix or dataframe must have the same number of rows than the number of nodes}

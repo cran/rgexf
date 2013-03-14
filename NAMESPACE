@@ -1,13 +1,25 @@
 importFrom(XML)
+importFrom(utils, packageDescription)
 
 export(.addNodesEdges, .defAtt)
-export(checkTimes)
+
+# Parsing functions
+export(checkTimes, .parseEdgesVizAtt, .parseNodesVizAtt, .parseEdgesWeight, 
+       .parseEdgesAtt, .parseEdgesId, .parseNodesAtt, .parseEdgesLabel)
+
 export(write.gexf)
 export(read.gexf)
 export(new.gexf.graph)
 export(add.gexf.node, rm.gexf.node, add.gexf.edge, rm.gexf.edge)
+export(add.node.spell, add.edge.spell)
 export(edge.list)
+
+# Analysis functions
+export(check.dpl.edges, switch.edges)
 
 # Methods
 S3method(print, gexf)
 S3method(summary, gexf)
+
+# Source code
+useDynLib(rgexf)

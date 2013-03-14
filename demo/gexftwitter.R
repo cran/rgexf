@@ -1,5 +1,6 @@
 ################################################################################
 # Demo of gexf function - An example with real data
+# Author: Jorge Fabrega
 ################################################################################
 
 pause <- function() {  
@@ -22,15 +23,7 @@ data(twitteraccounts)
 data(followers)
 
 # preparing data 
-nodos <- as.matrix(twitteraccounts$label)
-num <- length(nodos)
-nodos <- cbind(seq(1:num),nodos)
-colnames(nodos) <- c("id","label")
-
-cargo<-as.data.frame(twitteraccounts$cargo, stringsAsFactors=F)
-partido<-as.data.frame(twitteraccounts$partido, stringsAsFactors=F)
-sector<-as.data.frame(twitteraccounts$sector, stringsAsFactors=F)
-categoria<-as.data.frame(twitteraccounts$categoria, stringsAsFactors=F)
+nodos <- data.frame(id=1:NROW(twitteraccounts), label=twitteraccounts$label)
 
 nodos.att <- subset(twitteraccounts, select=c(cargo, partido, sector, categoria))
 relations<- subset(followers, select=c(source, target))
@@ -38,6 +31,4 @@ relations<- subset(followers, select=c(source, target))
 # Creating the follower-following network in gexf format with some nodes' attribute
 pause()
 
-tw_politics_cl <- write.gexf(nodos,relations,nodesAtt=nodos.att, keepFactors=F)
-
-# print(tw_politics_cl, file='example.gexf', replace=T)
+x1 <- write.gexf(nodos, relations, keepFactors=F, nodesAtt=nodos.att)

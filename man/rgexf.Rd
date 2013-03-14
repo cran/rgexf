@@ -1,15 +1,18 @@
 \name{rgexf-package}
 \alias{rgexf-package}
 \alias{rgexf}
+\alias{gexf}
 \alias{gephi}
 \docType{package}
 \title{
-  An R library to build GEXF graph files
+  An R package to build GEXF graph files
 }
 \description{
-  rgexf packages provides of a collection of functions to generate GEXF and read graph files supported on GEPHI (and others).
+  rgexf package provides of a collection of functions to generate and read GEXF graph files supported on Gephi (and others).
   
-  It supports building dynamic graphs and adding attributes to edges and nodes, including visual attributes such as color, shape and size.
+  It supports building dynamic graphs (including spells) and adding attributes to edges and nodes, including visual attributes such as color, shape and size.
+  
+  Users can chose to build graph from \code{data.frame}s (using \code{write.gexf}) or element-by-element (using several other functions to handle \code{gexf} objects.)
   
   Please visit the project home for more information:
     \url{https://bitbucket.org/gvegayon/rgexf}.
@@ -18,8 +21,8 @@
   \tabular{ll}{
     Package: \tab rgexf\cr
     Type: \tab Package\cr
-    Version: \tab 0.13.01\cr
-    Date: \tab 2013-01-04\cr
+    Version: \tab 0.13.03\cr
+    Date: \tab 2013-03-13\cr
     License: \tab GPL version 2 or later\cr
   }
 }
