@@ -9,10 +9,12 @@
 \description{Manipulates \code{gexf} objects adding and removing nodes and edges from both, its dataframe representation and its XML representation.}
 \usage{
 add.gexf.node(graph, id=NA, label=NA, start=NULL, end=NULL,
-   vizAtt=list(color=NULL, position=NULL, size=NULL, shape=NULL, image=NULL))
+   vizAtt=list(color=NULL, position=NULL, size=NULL, shape=NULL, image=NULL),
+   atts=NULL)
 
 add.gexf.edge(graph, source, target, id=NULL, type=NULL, label=NULL, start=NULL,
-   end=NULL, weight=1, vizAtt = list(color=NULL, thickness=NULL, shape=NULL))
+   end=NULL, weight=1, vizAtt = list(color=NULL, thickness=NULL, shape=NULL),
+   atts=NULL)
 
 rm.gexf.node(graph, id=NULL, number=NULL, rm.edges = TRUE)
 
@@ -23,17 +25,18 @@ add.node.spell(graph, id=NULL, number=NULL, start=NULL, end=NULL)
 add.edge.spell(graph, id=NULL, number=NULL, start=NULL, end=NULL)
 }
 \arguments{
-  \item{graph}{A gexf class object to which the new node is to be added.}
-  \item{id}{A node id.}
+  \item{graph}{A gexf-class object.}
+  \item{id}{A node/edge id (normaly numeric value).}
   \item{label}{A node/edge label.}
-  \item{type}{Type of conection.}
-  \item{number}{Indexing number of node(s)/edge(s).}
+  \item{type}{Type of conection (edge).}
+  \item{number}{Index number(s) of a single or a group of nodes or edges.}
   \item{weight}{Edge weight.}
-  \item{vizAtt}{A list of node/edge viz attributes.}
-  \item{source}{String. Source node's id.}
-  \item{target}{String. Target node's id.}
-  \item{start}{Start}
-  \item{end}{End}
+  \item{vizAtt}{A list of node/edge viz attributes (see \code{\link{write.gexf}}).}
+  \item{atts}{List of attributes, currently ignored.}
+  \item{source}{Source node's id.}
+  \item{target}{Target node's id.}
+  \item{start}{Starting time period }
+  \item{end}{Ending time period}
   \item{rm.edges}{Whether to remove or not existing edges.}
 }
 \details{
@@ -46,7 +49,7 @@ add.edge.spell(graph, id=NULL, number=NULL, start=NULL, end=NULL)
   \code{add.node.spell} and \code{add.edge.spell} allow to include spells to specific nodes or edges in a \code{gexf} object.
 }
 \value{
-  A \code{gexf} object.
+  A \code{gexf} object (see \code{\link{write.gexf}}).
 }
 \author{George Vega Yon \email{george.vega@nodoschile.org},
 

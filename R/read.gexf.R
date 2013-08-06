@@ -30,16 +30,17 @@ read.gexf <- function(x) {
   ################################################################################
 
   # Attributes list
-  if (length(y<-getNodeSet(gfile,"/r:gexf/r:graph/r:attributes", c(r=ns))) > 0) {
+  graph$atts.definitions <- list(nodes=NULL,edges = NULL)
+  if (length(y<-getNodeSet(gfile,"/r:gexf/r:graph/r:attributes", c(r=ns)))) {
     while (length(y) > 0) {
       
       # Gets the class
-      attclass <- paste(xmlAttrs(y[[1]])[["class"]],"att", sep=".")
+      attclass <- paste(xmlAttrs(y[[1]])[["class"]],"s", sep="")
       z <- getNodeSet(
         y[[1]], "/r:gexf/r:graph/r:attributes/r:attribute", c(r=ns))
       
       # Builds a dataframe
-      graph[[attclass]] <- data.frame(
+      graph$atts.definitions[[attclass]] <- data.frame(
         id=sapply(z, xmlGetAttr, name="id"),
         title=sapply(z, xmlGetAttr, name="title"),
         type=sapply(z, xmlGetAttr, name="type")
@@ -48,7 +49,7 @@ read.gexf <- function(x) {
       # Removes the already analyzed
       y <- y[-1]
     }
-  }  
+  }
   
   graph$mode <- xmlAttrs(getNodeSet(gfile,"/r:gexf/r:graph", c(r=ns))[[1]])
   
@@ -56,38 +57,22 @@ read.gexf <- function(x) {
   nodes <- getNodeSet(gfile,"/r:gexf/r:graph/r:nodes/r:node", c(r=ns))
   graph$nodes <- data.frame(
     id=sapply(nodes, xmlGetAttr, name="id"), 
-    label=sapply(nodes, xmlGetAttr, name="label"), stringsAsFactors=F)
-
-  #nodes <- getNodeSet(gfile,"/r:gexf/r:graph/r:nodes/r:node", c(r=ns))
-  #graph$nodesatt <- NULL
-  #if (NROW(y <- graph$node.att) > 0) {
-  #  print(nodes)
-  
-
-#    x <- getNodeSet(gfile,"/r:gexf/r:graph/r:nodes/r:node/r:attvalues/r:attvalue[@for='att1']", c(r=ns))
-#  print(sapply(x, xmlGetAttr, name="value"))
-#stop()
-  #  
-  #  while (NROW(y) > 0) {
-  #    message(names(nodes))
-  #    graph$nodesatt <- cbind(graph$nodesatt, sapply(nodes[["attributes"]], xmlGetAttr, name=y[1,1]),
-  #                         stringsAsFactors=F)
-  #    y <- y[-1,]
-  #  }
-  #  print(gfile)
-  #  names(graph$node) <- c("id","label",graph$node.att[,1])
-  #}
+    label=sapply(nodes, xmlGetAttr, name="label"), 
+    stringsAsFactors=F)
   rm(nodes)
   
   # Edges
   edges <- getNodeSet(gfile,"/r:gexf/r:graph/r:edges/r:edge", c(r=ns))
-  graph$edges <- data.frame(
-    source=sapply(edges, xmlGetAttr, name="source"), 
-    target=sapply(edges, xmlGetAttr, name="target"), stringsAsFactors=F)
-  rm(edges)
 
-  if (length(graph$node.att) == 0) graph$node.att <- NA
-  if (length(graph$edge.att) == 0) graph$edge.att <- NA
+  graph$edges <- data.frame(
+    id=sapply(edges, xmlGetAttr, name="id", default=NA),
+    source=sapply(edges, xmlGetAttr, name="source"), 
+    target=sapply(edges, xmlGetAttr, name="target"), 
+    weight=as.numeric(sapply(edges, xmlGetAttr, name="weight", default="1.0")),
+    stringsAsFactors=F)
+
+  if (any(is.na(graph$edges[,1]))) graph$edges[,1] <- 1:NROW(graph$edges)
+  rm(edges)
 
   graph$graph <- saveXML(gfile, encoding="UTF-8")
 
@@ -105,7 +90,10 @@ add.gexf.node <- function(
   label=NA, 
   start=NULL, 
   end=NULL,
-  vizAtt=list(color=NULL, position=NULL, size=NULL, shape=NULL, image=NULL)) {
+  vizAtt=list(color=NULL, position=NULL, size=NULL, shape=NULL, image=NULL),
+  atts=NULL
+  ) 
+  {
   # Parses the graph file
   graph$graph <- xmlTreeParse(graph$graph, encoding="UTF-8")
   
@@ -113,6 +101,49 @@ add.gexf.node <- function(
   n <- length(graph$graph$doc$children$gexf[["graph"]][["nodes"]])
   
   node <- xmlNode("node", attrs=c(id=id, label=label, start=start, end=end))
+  
+  # Adds the atts
+#   if (length(atts)) {
+#     atts.node <- xmlNode("attvalues")
+#     for (i in 1:length(atts)) {
+#       atts.node <- 
+#         addChildren(
+#           atts.node, 
+#           xmlNode("attvalue", attrs=c("for"=names(atts)[i], value=atts[[i]])))
+#       
+#       # Checking atts definition
+#       if (!length(graph$atts.definitions$node)) {
+#         graph$atts.definitions$node <-
+#           data.frame(
+#             id=names(atts)[i], 
+#             title=atts[[i]], 
+#             type=.parseDataTypes(atts[[i]])
+#             )
+#         )
+# 
+#         # Adding the atts XML definitions
+#         tmpattnode <- xmlNode("attributes". attrs=c(class="node", mode="static"))
+#         tmpattnode <- 
+#           addChildren(tmpattnode, 
+#                       xmlNode("attribute",attrs=c("for"=names(atts)[i], value=atts[[i]])))
+#         
+#         graph$graph$doc$children$gexf[["graph"]] <- tmpattnode
+#       }
+#       else if (!length(subset(graph$atts.definitions$node, id==names(atts)[i]))) {
+#         graph$atts.definitions$node <-
+#           rbind(graph$atts.definitions$node,
+#           data.frame(
+#             id=names(atts)[i],
+#             title=atts[[i]],
+#             type=.parseDataTypes(atts[[i]])
+#             )
+#           )
+#       }
+#     }
+#     
+#     # Adding new node
+#     node <- addChildren(node, atts.node)
+#   }
   
   # Adds the viz atts
   if (length(unlist(vizAtt)) > 0) {
@@ -132,8 +163,15 @@ add.gexf.node <- function(
   
   graph$graph$doc$children$gexf[["graph"]][["nodes"]][[n+1]] <- asXMLNode(x=node)
   
-  graph$nodes <- rbind(graph$nodes, data.frame(id=id, label=label, 
-                                               stringsAsFactors=F))
+  # Adding to data.frame
+  tmpdf <- data.frame(id=id, label=label,stringsAsFactors=F)
+  for (i in colnames(graph$nodes)) {
+    if (!all(i %in% c("id","label"))) {
+      tmpdf <- cbind(tmpdf, NA)
+      colnames(tmpdf)[length(tmpdf)] <- i
+    }
+  }
+  graph$nodes <- rbind(graph$nodes, tmpdf)
   
   # Saves and returns as char XML
   graph$graph <- saveXML(xmlRoot(graph$graph), encoding="UTF-8")
@@ -153,7 +191,8 @@ add.gexf.edge <- function(
   start=NULL, 
   end=NULL, 
   weight=1, 
-  vizAtt = list(color=NULL, thickness=NULL, shape=NULL)) {
+  vizAtt = list(color=NULL, thickness=NULL, shape=NULL),
+  atts=NULL) {
   
   # Parses the graph file
   graph$graph <- xmlTreeParse(graph$graph, encoding="UTF-8")
@@ -166,7 +205,19 @@ add.gexf.edge <- function(
   edge <- xmlNode("edge", attrs=c(id=id, type=type, label=label, source=source, 
                                   target=target, start=start, end=end, 
                                   weight=sprintf("%.2f",weight)))
-    # Adds the viz atts
+  # Adds the atts
+#   if (length(atts)) {
+#     atts.edge <- xmlNode("attvalues")
+#     for (i in 1:length(atts)) {
+#       atts.edge <- 
+#         addChildren(
+#           atts.edge, 
+#           xmlNode("attvalue", attrs=c("for"=names(atts)[i], value=atts[[i]])))
+#     }
+#     edge <- addChildren(edge, atts.edge)
+#   }
+  
+  # Adds the viz atts
   if (length(unlist(vizAtt)) > 0) {
     if (length(vizAtt$color) > 0) {
       edge <- addChildren(edge, xmlNode("viz:color", attrs=vizAtt$color))
@@ -183,8 +234,17 @@ add.gexf.edge <- function(
   graph$graph$doc$children$gexf[["graph"]][["edges"]][[n+1]] <- asXMLNode(x=edge)
   
   if (length(label) == 0) label <- id
-  graph$edges <- rbind(graph$edges, data.frame(id=id, label=label, source=source, target=target,
-                                               stringsAsFactors=F))
+  
+  # Adding to data.frame
+  tmpdf <- data.frame(id=id, source=source, target=target, weight=weight,
+                      stringsAsFactors=F)
+  for (i in colnames(graph$edges)) {
+    if (!all(i %in% c("id","source","target","weight"))) {
+      tmpdf <- cbind(tmpdf, NA)
+      colnames(tmpdf)[length(tmpdf)] <- i
+    }
+  }
+  graph$edges <- rbind(graph$edges, tmpdf)
   
   # Saves and returns as char XML
   graph$graph <- saveXML(xmlRoot(graph$graph), encoding="UTF-8")
@@ -235,18 +295,19 @@ new.gexf.graph <- function(
   # Edges
   newXMLNode(name='edges', parent=xmlGraph)
   
-  # Return
-  results <- list(
-    meta=unlist(meta),
-    mode=unlist(c(defaultedgetype=defaultedgetype, mode=mode)),
-    node.att = NULL,
-    edge.att = NULL,
-    nodes=data.frame(id=NULL, label=NULL),
-    edges=data.frame(id=NULL, label=NULL, source=NULL, target=NULL),
-    graph=saveXML(xmlFile, encoding='UTF-8'))
-  class(results) <- "gexf"
-  
-  return(results)
+  # Return  
+  return(
+    .build.and.validate.gexf(
+      meta=meta,
+      mode=list(defaultedgetype=defaultedgetype, mode=mode),
+      atts.definitions = list(nodes = NULL, edges = NULL),
+      nodesVizAtt = NULL,
+      edgesVizAtt = NULL,
+      nodes=data.frame(id=NULL, label=NULL, row.names=NULL),
+      edges=data.frame(id=NULL, source=NULL,target=NULL, weight=NULL, row.names=NULL),
+      graph=saveXML(xmlFile, encoding="UTF-8")
+      )
+    )
 }
 
 rm.gexf.node <- function(
@@ -447,3 +508,5 @@ add.edge.spell <- function(
   graph$graph <- saveXML(xmlRoot(graph$graph), encoding="UTF-8")
   return(graph)
 }
+
+

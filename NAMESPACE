@@ -1,11 +1,14 @@
 importFrom(XML)
+importFrom(Rook)
 importFrom(utils, packageDescription)
+importFrom(igraph)
 
 export(.addNodesEdges, .defAtt)
 
 # Parsing functions
 export(checkTimes, .parseEdgesVizAtt, .parseNodesVizAtt, .parseEdgesWeight, 
-       .parseEdgesAtt, .parseEdgesId, .parseNodesAtt, .parseEdgesLabel)
+       .parseEdgesAtt, .parseEdgesId, .parseNodesAtt, .parseEdgesLabel,
+       .parseDataTypes, .build.and.validate.gexf)
 
 export(write.gexf)
 export(read.gexf)
@@ -20,6 +23,9 @@ export(check.dpl.edges, switch.edges)
 # Methods
 S3method(print, gexf)
 S3method(summary, gexf)
+S3method(plot, gexf)
+
+export(igraph.to.gexf, gexf.to.igraph)
 
 # Source code
 useDynLib(rgexf)
