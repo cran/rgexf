@@ -21,13 +21,15 @@ write.gexf(
   ),
   nodeDynamic = NULL, 
   edgeDynamic = NULL, 
+  digits = getOption("digits"),
   output = NA, tFormat = "double", 
   defaultedgetype = "undirected",
   meta = list(
     creator="NodosChile", 
     description="A graph file writing in R using \"rgexf\"",
     keywords="gexf graph, NodosChile, R, rgexf"),
-  keepFactors = TRUE
+  keepFactors = FALSE,
+  encoding = "UTF-8"
   )
 }
 \arguments{
@@ -42,11 +44,13 @@ write.gexf(
   \item{nodesVizAtt}{List of four or less viz attributes such as color, position, size and shape of the nodes (see details)}
   \item{nodeDynamic}{A two-column matrix or data-frame. The first column indicates the time at which a given node starts; the second one shows when it ends. The matrix or data-frame must have the same number of rows than the number of nodes in the graph.}
   \item{edgeDynamic}{A two-column matrix or data-frame. The fist column indicates the time at which a given edge stars; the second one shows when it ends. The matrix or dataframe must have the same number of rows than the number of edges in the graph.}
+  \item{digits}{Integer. Number of decimals to keep for nodes/edges sizes. See \code{\link{print.default}}}
   \item{output}{String. The complete path (including filename) where to export the graph as a GEXF file.}
   \item{tFormat}{String. Time format for dynamic graphs (see details)}
   \item{defaultedgetype}{\dQuote{directed}, \dQuote{undirected}, \dQuote{mutual}}
   \item{meta}{A List. Meta data describing the graph}
   \item{keepFactors}{Logical, whether to handle factors as numeric values (\code{TRUE}) or as strings (\code{FALSE}) by using \code{as.character}.}
+  \item{encoding}{Encoding of the graph.}
 }
 \details{  
   Just like \code{nodesVizAtt} and \code{edgesVizAtt}, \code{nodesAtt} and \code{edgesAtt} must have the same number of rows as nodes and edges, respectively. Using data frames is necessary as in this way data types are preserved.

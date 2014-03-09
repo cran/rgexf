@@ -2,6 +2,38 @@
 \title{rgexf NEWS}
 \encoding{UTF-8}
 
+\section{CHANGES IN rgexf version 0.14.3 [2014-03-09]}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item New option -digits- in several functions allow to control for printing precision (reported in issue 16, thanks Nico!).
+      \item Function -igraph.to.gexf- now imports attributes.
+    }
+  }
+  \subsection{BUG FIX}{
+    \itemize{
+      \item Option -defaultedgetype- in the -write.gexf- function now works for static graphs (reported in issue 17, thanks Avitus!).
+      \item -datetime- time format in -write.gexf- now works for other formats different from numeric datetime types (reported as issue 15, thanks Thomas Ullmann!).
+      \item Correcting errors in -plot.gexf- method, now visual attributes are imported correctly.
+    }
+  }
+  \subsection{DEVELOPMENT}{
+    \itemize{
+     \item Option -keepFactors- default is now in -FALSE- (used to be in -TRUE-). When setted in -TRUE- and there are factors, a warning message will appear (reported in issue 18, thanks Tim Smith!).
+    }
+  }
+}
+
+\section{CHANGES IN rgexf version 0.13.11 [2013-11-27]}{
+  \subsection{BUG FIX}{
+    \itemize{
+      \item Included class checks in -gexf- class functions (thanks to Samuel Finegold).
+      \item \code{write.gexf} does not fails when dynamics different from \code{double} are passed (thank you Samuel Finegold!).
+      \item Passing weights from igraph to gexf as now been fix (thank you Roberto Brunelli!).
+      \item Fixing encoding issues thanks to Yong Cha's suggestion (thank you!).
+    }
+  }
+}
+
 \section{CHANGES IN rgexf version 0.13.8 [2013-08-06]}{
   \subsection{NEW FEATURES}{
     \itemize{
