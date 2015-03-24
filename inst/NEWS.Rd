@@ -2,6 +2,11 @@
 \title{rgexf NEWS}
 \encoding{UTF-8}
 
+\section{CHANGES IN rgexf version 0.15.2.3 [2015-02-03]}{
+\itemize{
+  \item Updating emails.
+}
+}
 \section{CHANGES IN rgexf version 0.14.3 [2014-03-09]}{
   \subsection{NEW FEATURES}{
     \itemize{

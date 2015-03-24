@@ -1,7 +1,7 @@
-4afc9997ae5734c6f5b17defb1f892ae *DESCRIPTION
-d58e1211ccabfc014b9b2e3d1511babe *NAMESPACE
+b8e1718283b5b4e78eb65f3871e47f49 *DESCRIPTION
+0f0fb23ff62a886e19b74ae79e2e9c2c *NAMESPACE
 40867b3702bc869b222c12c7cb7938e3 *R/bugs.R
-59c1f95c37f6ac42214c423b418827aa *R/igraph.R
+689098185c5bf50370ae4d2ddeba5470 *R/igraph.R
 b017eeb0612e9595630216b36da684f9 *R/math.R
 345dd9005ea04525f125b2358af4a4b4 *R/plot.gexf.R
 55a6a597f12cacefd9727c42774d18f8 *R/read.gexf.R
@@ -21,7 +21,7 @@ b1baca69f8cdd481a69626f7f954019c *demo/gexfdynamic.R
 99d2e9639f1a6ea01d34f6bbbbaf8b00 *demo/gexfigraph.R
 8a693f47d3806531b97ca23cc6b42f0c *demo/gexfrandom.R
 bff01a18aeda3c0d0ba1340ebfb3c4dd *demo/gexftwitter.R
-bed5b25d0d01aa322a96dd7ae64447f3 *inst/NEWS.Rd
+454ecdbbc584eba823b7bc1dadde35b0 *inst/NEWS.Rd
 3fc6e4ce0c3410267980a524e002f116 *inst/gexf-12draft-primer.pdf
 c29888608afc4df4a25dfc5b83708960 *inst/gexf-graphs/lesmiserables.gexf
 230b041d2ca923b95d268416fdf1c1dc *inst/sigmajs/index.html
@@ -37,7 +37,7 @@ c5cfe83dd136feaf9c1e4e8026b573dd *man/checkTimes.Rd
 8529596ec8f5c774bf1c091af712d55c *man/igraph.to.gexf.Rd
 4f78fcf6db57a5916ab34648d165c985 *man/new.gexf.graph.Rd
 bb334729a82593fcb220b4f452e79fed *man/read.gexf.Rd
-7ef1e2b64af76e8341ea2d50f2603224 *man/rgexf.Rd
+0b36c8cc9e2f2fdbadfdc5f7f960a015 *man/rgexf.Rd
 6b0de54dab046aa420606f46b23b8b4b *man/rgexfmethods.Rd
 fe0faa3427e8b2c68651906473ad5cb5 *man/switch.edges.Rd
 33c79740f743bf798f2aa12eace98602 *man/twitteraccounts.Rd
