@@ -1,32 +1,31 @@
+#' @name gexf-methods
+#' @export
 print.gexf <- function(x, file=NA, replace=F, ...) {
 ################################################################################
 # Printing method
 ################################################################################
-  if (is.na(file)) {
-    cat(x$graph)
-  }
-  else {
-    output <- file(description=file,open="w",encoding='UTF-8')
-    write(x$graph, file=output,...)
-    close.connection(output)
-    message('GEXF graph successfully written at:\n',normalizePath(file))
-  }
+  cat(x$graph)
+  
+  invisible(x)
+  
 }
 
+#' @name gexf-methods
+#' @export
 summary.gexf <- function(object, ...) {
   ################################################################################
   # Printing method
   ################################################################################
   result <- list("N of nodes"=NROW(object$nodes), 
                  "N of edges"=NROW(object$edges),
-                 "Node Attrs"=head(object$atts.definitions$node.att),
-                 "Edge Attrs"=head(object$atts.definitions$edge.att))
+                 "Node Attrs"=utils::head(object$atts.definitions$node.att),
+                 "Edge Attrs"=utils::head(object$atts.definitions$edge.att))
   #class(result) <- "table"
   cat("GEXF graph object\n")
   result
 }
 
-.build.and.validate.gexf <- function(
+build.and.validate.gexf <- function(
   meta=list(creator="NodosChile", description="A graph file writing in R using \'rgexf\'",keywords="gexf graph, NodosChile, R, rgexf"),
   mode=list(defaultedgetype="undirected", mode="static"),
   atts.definitions=list(nodes = NULL, edges = NULL),
@@ -135,19 +134,15 @@ summary.gexf <- function(object, ...) {
   }  
   
   # Returns the output
-  output <- list(
-    meta=unlist(meta),
-    mode=unlist(mode),
-    atts.definitions=atts.definitions,
-    nodesVizAtt=nodesVizAtt,
-    edgesVizAtt=edgesVizAtt,
-    nodes=nodes,
-    edges=edges,
-    graph=graph
-    )
-  
-  class(output) <- "gexf"
-  
-  return(output)
+  structure(list(
+    meta             = unlist(meta),
+    mode             = unlist(mode),
+    atts.definitions = atts.definitions,
+    nodesVizAtt      = nodesVizAtt,
+    edgesVizAtt      = edgesVizAtt,
+    nodes            = nodes,
+    edges            = edges,
+    graph            = graph
+    ), class = "gexf")
 }
 
