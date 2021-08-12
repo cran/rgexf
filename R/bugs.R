@@ -18,10 +18,7 @@
 #'   checkTimes("2012-02-01T00:00:00", "dateTime")
 #' @export
 checkTimes <- function(x, format='date') {
-  ################################################################################
-  # A a function of format, checks that all data has the correct format
-  ################################################################################
-  
+    
   # Defining regular expressions to match
   if (format=='date') {
     match <- '^[0-9]{4}[-]{1}[01-12]{2}[-]{1}[01-31]{2}$'
@@ -59,23 +56,28 @@ check_and_map_color <- function(x) {
     if (is.numeric(x)) {
       
       if (x < 1)
-        stop("When specified as number, colors cannot be negative!", call. = FALSE)
+        stop(
+          "When specified as number, colors cannot be negative!",
+          call. = FALSE
+          )
       
       x <- grDevices::colors()[x]
+      
     }
       
     
     # Coercing to RGBA
-    x <- t(grDevices::col2rgb(x, alpha=TRUE))
+    x <- t(grDevices::col2rgb(x, alpha = TRUE))
     
     # Rescaling the alpha
     x[4] <- x[4]/255
     
   } else if (length(x) > 1) {
     
-    if (!is.numeric(x))
-      stop("When specified as a matrix, colors should be passed as a numeric ",
-           "matrix.", call. = FALSE)
+    x <- as.numeric(x)
+    
+    if (any(is.na(x)))
+      stop("Some numbers in the color matrix are NA.", call. = FALSE)
     
     # If only three columns
     if (length(x) == 3) {
@@ -87,7 +89,7 @@ check_and_map_color <- function(x) {
       # Checking the range of colors
       if ((x[-4] < 0)  | (x[-4] > 255))
         stop("The color specification is out of range.", call. = FALSE)
-      if ((x[4] < 0) | (x[2, 4] > 1))
+      if ((x[4] < 0) | (x[4] > 1))
         stop("The color specification  is out of range.", call. = FALSE)
       
     } else if (length(x) != 4) {
@@ -456,5 +458,6 @@ parseVectors <- function(x, n, attr.name) {
   if (type == "character") return("string")
   else if (type == "double") return("float")
   else if (type == "logical") return("boolean")
-  else return(type)        
+  else return(type)
+  
 }
