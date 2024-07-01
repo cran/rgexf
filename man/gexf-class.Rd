@@ -29,7 +29,9 @@ gexf(
   keepFactors = FALSE,
   encoding = "UTF-8",
   vers = "1.3",
-  rescale.node.size = TRUE
+  rescale.node.size = TRUE,
+  relsize = max(0.01, 1/nrow(nodes)),
+  radius = 500
 )
 
 write.gexf(nodes, ...)
@@ -94,6 +96,11 @@ By default \code{"1.3"}.}
 \item{rescale.node.size}{Logical scalar. When \code{TRUE} it rescales the
 size of the vertices such that the largest one is about \\%5 of the plotting
 region.}
+
+\item{relsize}{Numeric scalar. Relative size of the largest node in terms
+of the layout.}
+
+\item{radius}{Numeric scalar. Radius of the plotting area.}
 
 \item{...}{Passed to \code{gexf}.}
 }
@@ -172,7 +179,7 @@ if (interactive()) {
 
 }
 \references{
-The GEXF project website: https://gephi.org/gexf/format/
+The GEXF project website: https://gexf.net
 }
 \seealso{
 \code{\link[=new.gexf.graph]{new.gexf.graph()}}

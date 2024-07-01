@@ -1,3 +1,8 @@
+# Changes in rgexf version 0.16.3 (2024-06-27)
+
+* Dynamically loaded components in the Rd files were removed to comply with new 
+  CRAN policies.
+
 # Changes in rgexf version 0.16.2 (2021-08-10)
 
 ## New features and changes

@@ -28,7 +28,7 @@ Please visit the project home for more information:
 }
 \note{
 See the GEXF primer for details on the GEXF graph format:
-\url{https://gephi.org/gexf/1.2draft/gexf-12draft-primer.pdf}
+\url{http://gexf.net/1.2draft/gexf-12draft-primer.pdf}
 }
 \examples{
 
@@ -50,9 +50,31 @@ if (interactive()) {
 \references{
 \itemize{ \item rgexf project site:
 \url{https://github.com/gvegayon/rgexf} \item Gephi project site:
-\url{https://gephi.org/} \item GEXF project site: \url{https://gephi.org/gexf/format//}
+\url{https://gephi.org/} \item GEXF project site: \url{https://gexf.net/}
 \item gexf-js project website: \url{https://github.com/raphv/gexf-js}
-\item Sigmasj project site: \url{http://sigmajs.org/}
+\item Sigmasj project site: \url{https://www.sigmajs.org/}
 }
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://gvegayon.github.io/rgexf/}
+  \item Report bugs at \url{https://github.com/gvegayon/rgexf/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: George Vega Yon \email{g.vegayon@gmail.com} (\href{https://orcid.org/0000-0002-3171-0844}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Jorge Fábrega Lacoa [contributor]
+  \item Joshua Kunst [contributor]
+  \item Raphaël Velt (gexf-js library) [copyright holder]
+  \item  Gephi Consortium (GEXF language) [copyright holder]
+  \item Cornelius Fritz (JOSS reviewer) [reviewer]
+  \item Jonathan Cardoso Silva (JOSS reviewer) [reviewer]
+}
+
 }
 \keyword{package}
