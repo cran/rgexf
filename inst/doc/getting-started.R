@@ -25,8 +25,8 @@ par(op)
 ## ----go-back------------------------------------------------------------------
 head(igraph.to.gexf(lesmi_ig))
 
-## ----gexf-js, echo = FALSE----------------------------------------------------
-knitr::include_graphics(path = system.file("gexf-graphs/lesmiserables.png", package="rgexf"))
+## ----gexf-js, echo = FALSE, fig.alt = "Les Misérables network rendered with gexf-js"----
+knitr::include_graphics("lesmiserables.png")
 
 ## -----------------------------------------------------------------------------
 # Random graph demo
@@ -105,4 +105,7 @@ head(graph)
 op <- par(mai = rep(0, 4)) # For extra space
 plot(gexf.to.igraph(graph))
 par(op)
+
+## -----------------------------------------------------------------------------
+gexfjs(graph)
 

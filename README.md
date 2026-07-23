@@ -1,20 +1,15 @@
 
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rgexf.png)](https://cran.r-project.org/package=rgexf)
-[![Downloads](http://cranlogs.r-pkg.org/badges/rgexf?color=brightgreen.png)](https://cran.r-project.org/package=rgexf)
-[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rgexf.png)](https://cran.r-project.org/package=rgexf)
-[![R
-CI](https://github.com/gvegayon/rgexf/actions/workflows/ci.yml/badge.svg)](https://github.com/gvegayon/rgexf/actions/workflows/ci.yml)
-[![rgexf
-website](https://github.com/gvegayon/rgexf/actions/workflows/website.yml/badge.svg)](https://github.com/gvegayon/rgexf/actions/workflows/website.yml)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/gvegayon/rgexf?branch=master&svg=true.png)](https://ci.appveyor.com/project/gvegayon/rgexf)
-[![Coverage
-Status](https://img.shields.io/codecov/c/github/gvegayon/rgexf/master.svg)](https://app.codecov.io/github/gvegayon/rgexf?branch=master)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/rgexf)](https://cran.r-project.org/package=rgexf)
+[![Downloads](https://cranlogs.r-pkg.org/badges/rgexf)](https://cran.r-project.org/package=rgexf)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rgexf)](https://cran.r-project.org/package=rgexf)
+[![R CI](https://github.com/gvegayon/rgexf/actions/workflows/ci.yml/badge.svg)](https://github.com/gvegayon/rgexf/actions/workflows/ci.yml)
+[![rgexf website](https://github.com/gvegayon/rgexf/actions/workflows/website.yml/badge.svg)](https://github.com/gvegayon/rgexf/actions/workflows/website.yml)
+[![Coverage Status](https://img.shields.io/codecov/c/github/gvegayon/rgexf/master.svg)](https://app.codecov.io/github/gvegayon/rgexf?branch=master)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.03456/status.svg)](https://doi.org/10.21105/joss.03456)
-[![Sponsor](https://img.shields.io/badge/-Sponsor-fafbfc?logo=GitHub%20Sponsors.png)](https://github.com/sponsors/gvegayon)
+[![Sponsor](https://img.shields.io/badge/-Sponsor-fafbfc?logo=GitHub%20Sponsors)](https://github.com/sponsors/gvegayon)
 
-# rgexf: Build, Import and Export GEXF Graph Files <img src="man/figures/logo.svg" align="right" height="200"/>
+# rgexf: Build, Import and Export GEXF Graph Files <img src="man/figures/logo.svg" align="right" height="200" alt="rgexf hex sticker logo"/>
 
 The first R package to work with GEXF graph files (used in Gephi and
 others). `rgexf` allows reading and writing graph files, including:
@@ -32,10 +27,48 @@ visualize the graph on a web browser through ~~sigmajs javascript~~
 [gexf-js](https://github.com/raphv/gexf-js) library and interact with
 the igraph package.
 
-# Changes in rgexf version 0.16.3 (2024-06-27)
+# Changes in rgexf version 0.16.4
 
--   Dynamically loaded components in the Rd files were removed to comply
-    with new CRAN policies.
+## New features and changes
+
+- `plot.gexf()` now renders graphs as an interactive htmlwidget powered
+  by [sigma.js](https://www.sigmajs.org/) v3 and
+  [graphology](https://graphology.github.io/). Node positions, colours,
+  and sizes are read from the `viz:*` attributes in the GEXF document.
+
+- New `sigmajs()` function creates a sigma.js htmlwidget from a `gexf`
+  object or a path to a `.gexf` file. Shiny helpers `sigmajsOutput()`
+  and `renderSigmajs()` are also available.
+
+- The legacy gexf-js file-server renderer is preserved as
+  `plot_gexfjs()`. The `gexfjs()` htmlwidget (inline iframe approach) is
+  likewise kept for backward compatibility.
+
+- `gexfjs()` now accepts a `gexf` object in addition to a file path,
+  matching `sigmajs()`.
+
+- `gexfjs()` has an explicit sizing policy: the widget now defaults to
+  the full available width and a height of 600px (50% taller than
+  before) in knitr documents, the browser, and Shiny alike. Both
+  `gexfjs()` and `sigmajs()` honor user-supplied `width`/`height`, and
+  their documented defaults were clarified.
+
+## Bug fixes
+
+- The `gexfjs()` widget rendered an empty main canvas: the bundled
+  `config.js` (which sets `zoomLevel`, `showEdges`, and other gexf-js
+  defaults) was never loaded into the iframe, making every screen
+  coordinate `NaN`.
+
+- Icons and images in the `gexfjs()` widget (zoom, lens, edge buttons,
+  search icon, Gephi logo) did not display: relative `url(...)`
+  references in the CSS cannot resolve inside a `srcdoc` iframe, so
+  images are now inlined as base64 data URIs.
+
+- The `gexfjs()` widget’s node-attribute panel was blank and search did
+  not work: the generated DOM was missing the `#leftcontent` element,
+  the search form id had a typo (`reacherche`), and the autocomplete
+  list was clipped by the title bar.
 
 More in the [NEWS.md](NEWS.md) file.
 
@@ -60,15 +93,16 @@ citation(package="rgexf")
 
     To cite rgexf in publications use the following paper:
 
-      Vega Yon, G. G., (2021). Building, Importing, and Exporting GEXF
-      Graph Files with rgexf. Journal of Open Source Software, 6(64), 3456,
-      https://doi.org/10.21105/joss.03456
+      Vega Yon G (2021). "Building, Importing, and Exporting GEXF Graph
+      Files with rgexf." _Journal of Open Source Software_, *6*, 3456.
+      doi:10.21105/joss.03456 <https://doi.org/10.21105/joss.03456>,
+      <https://doi.org/10.21105/joss.03456>.
 
     And the actual R package:
 
-      Vega Yon G, Fábrega Lacoa J, Kunst J (2024). _netdiffuseR: Build,
+      Vega Yon G, Fábrega Lacoa J, Kunst J (????). _netdiffuseR: Build,
       Import and Export GEXF Graph Files_. doi:10.5281/zenodo.5182708
-      <https://doi.org/10.5281/zenodo.5182708>, R package version 0.17.0,
+      <https://doi.org/10.5281/zenodo.5182708>, R package version 0.16.4,
       <https://github.com/gvegayon/rgexf>.
 
     To see these entries in BibTeX format, use 'print(<citation>,
@@ -188,7 +222,7 @@ op <- par(mai = rep(0, 4)) # Making room
 plot(ig)
 ```
 
-![](man/figures/igraph-1.png)
+![Les Misérables network plotted with igraph](man/figures/igraph-1.png)
 
 ``` r
 par(op)
@@ -201,10 +235,7 @@ library–results in a Web visualization of the graph, like this:
 plot(g)
 ```
 
-![](inst/gexf-graphs/lesmiserables.png)
-
-A live version of the figure is available
-[here](https://gvegayon.github.io/rgexf/lesmiserables/).
+![Les Misérables network rendered with gexf-js](man/figures/lesmiserables.png)
 
 ## Example 2: Static net
 
@@ -241,7 +272,7 @@ write.gexf(people, relations)
 
     <?xml version="1.0" encoding="UTF-8"?>
     <gexf xmlns="http://www.gexf.net/1.3" xmlns:viz="http://www.gexf.net/1.3/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.3 http://www.gexf.net/1.3/gexf.xsd" version="1.3">
-      <meta lastmodifieddate="2024-06-30">
+      <meta lastmodifieddate="2026-07-08">
         <creator>NodosChile</creator>
         <description>A GEXF file written in R with "rgexf"</description>
         <keywords>GEXF, NodosChile, R, rgexf, Gephi</keywords>
@@ -250,22 +281,22 @@ write.gexf(people, relations)
         <nodes>
           <node id="1" label="juan">
             <viz:color r="255" g="99" b="71" a="1"/>
-            <viz:position x="79.2065507374859" y="-250" z="0"/>
+            <viz:position x="163.952692888871" y="100.415277363797" z="0"/>
             <viz:size value="125"/>
           </node>
           <node id="2" label="pedro">
             <viz:color r="255" g="99" b="71" a="1"/>
-            <viz:position x="250" y="91.9438021126364" z="0"/>
+            <viz:position x="250" y="235.61426657648" z="0"/>
             <viz:size value="125"/>
           </node>
           <node id="3" label="matthew">
             <viz:color r="255" g="99" b="71" a="1"/>
-            <viz:position x="-79.815764224491" y="250" z="0"/>
+            <viz:position x="189.744021945668" y="250" z="0"/>
             <viz:size value="125"/>
           </node>
           <node id="4" label="carlos">
             <viz:color r="255" g="99" b="71" a="1"/>
-            <viz:position x="-250" y="194.911331255884" z="0"/>
+            <viz:position x="-250" y="-250" z="0"/>
             <viz:size value="125"/>
           </node>
         </nodes>
@@ -279,7 +310,6 @@ write.gexf(people, relations)
         </edges>
       </graph>
     </gexf>
-     
 
 ## Example 3: Dynamic net
 
@@ -302,7 +332,7 @@ write.gexf(people, relations, nodeDynamic=time)
 
     <?xml version="1.0" encoding="UTF-8"?>
     <gexf xmlns="http://www.gexf.net/1.3" xmlns:viz="http://www.gexf.net/1.3/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.3 http://www.gexf.net/1.3/gexf.xsd" version="1.3">
-      <meta lastmodifieddate="2024-06-30">
+      <meta lastmodifieddate="2026-07-08">
         <creator>NodosChile</creator>
         <description>A GEXF file written in R with "rgexf"</description>
         <keywords>GEXF, NodosChile, R, rgexf, Gephi</keywords>
@@ -316,17 +346,17 @@ write.gexf(people, relations, nodeDynamic=time)
           </node>
           <node id="2" label="pedro" start="13" end="13">
             <viz:color r="255" g="99" b="71" a="1"/>
-            <viz:position x="-250" y="-250" z="0"/>
+            <viz:position x="-116.286814488559" y="-48.8491528929603" z="0"/>
             <viz:size value="125"/>
           </node>
           <node id="3" label="matthew" start="2" end="13">
             <viz:color r="255" g="99" b="71" a="1"/>
-            <viz:position x="23.8452238193327" y="113.652288092202" z="0"/>
+            <viz:position x="193.001175103911" y="-250" z="0"/>
             <viz:size value="125"/>
           </node>
           <node id="4" label="carlos" start="2" end="13">
             <viz:color r="255" g="99" b="71" a="1"/>
-            <viz:position x="77.7158886485609" y="-219.373757312507" z="0"/>
+            <viz:position x="-250" y="-174.022122416047" z="0"/>
             <viz:size value="125"/>
           </node>
         </nodes>
@@ -340,7 +370,6 @@ write.gexf(people, relations, nodeDynamic=time)
         </edges>
       </graph>
     </gexf>
-     
 
 ## Example 4: More complex… Dynamic graph with attributes both for nodes and edges
 
@@ -405,7 +434,7 @@ write.gexf(nodes=people, edges=relations, edgeDynamic=time.edges,
 
     <?xml version="1.0" encoding="UTF-8"?>
     <gexf xmlns="http://www.gexf.net/1.3" xmlns:viz="http://www.gexf.net/1.3/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.3 http://www.gexf.net/1.3/gexf.xsd" version="1.3">
-      <meta lastmodifieddate="2024-06-30">
+      <meta lastmodifieddate="2026-07-08">
         <creator>NodosChile</creator>
         <description>A GEXF file written in R with "rgexf"</description>
         <keywords>GEXF, NodosChile, R, rgexf, Gephi</keywords>
@@ -426,7 +455,7 @@ write.gexf(nodes=people, edges=relations, edgeDynamic=time.edges,
               <attvalue for="att2" value="1"/>
             </attvalues>
             <viz:color r="255" g="99" b="71" a="1"/>
-            <viz:position x="250" y="116.263539042396" z="0"/>
+            <viz:position x="250" y="241.156927125917" z="0"/>
             <viz:size value="125"/>
           </node>
           <node id="2" label="pedro" start="13" end="13">
@@ -435,7 +464,7 @@ write.gexf(nodes=people, edges=relations, edgeDynamic=time.edges,
               <attvalue for="att2" value="2"/>
             </attvalues>
             <viz:color r="255" g="99" b="71" a="1"/>
-            <viz:position x="-162.569255531004" y="250" z="0"/>
+            <viz:position x="102.288482685844" y="-250" z="0"/>
             <viz:size value="125"/>
           </node>
           <node id="3" label="matthew" start="2" end="13">
@@ -444,7 +473,7 @@ write.gexf(nodes=people, edges=relations, edgeDynamic=time.edges,
               <attvalue for="att2" value="3"/>
             </attvalues>
             <viz:color r="255" g="99" b="71" a="1"/>
-            <viz:position x="-250" y="-250" z="0"/>
+            <viz:position x="-250" y="250" z="0"/>
             <viz:size value="125"/>
           </node>
           <node id="4" label="carlos" start="2" end="13">
@@ -453,7 +482,7 @@ write.gexf(nodes=people, edges=relations, edgeDynamic=time.edges,
               <attvalue for="att2" value="4"/>
             </attvalues>
             <viz:color r="255" g="99" b="71" a="1"/>
-            <viz:position x="142.556872059596" y="89.0845907381178" z="0"/>
+            <viz:position x="42.176120373259" y="-45.0467720735" z="0"/>
             <viz:size value="125"/>
           </node>
         </nodes>
@@ -497,7 +526,6 @@ write.gexf(nodes=people, edges=relations, edgeDynamic=time.edges,
         </edges>
       </graph>
     </gexf>
-     
 
 # Code of Conduct
 
@@ -511,76 +539,3 @@ Please note that the rgexf project is released with a [Contributor Code
 of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms
-
-# Session info
-
-``` r
-devtools::session_info()
-```
-
-    ─ Session info ───────────────────────────────────────────────────────────────
-     setting  value
-     version  R version 4.4.0 (2024-04-24)
-     os       Ubuntu 22.04.4 LTS
-     system   x86_64, linux-gnu
-     ui       X11
-     language (EN)
-     collate  en_US.UTF-8
-     ctype    en_US.UTF-8
-     tz       America/Denver
-     date     2024-06-30
-     pandoc   3.1.1 @ /usr/bin/ (via rmarkdown)
-
-    ─ Packages ───────────────────────────────────────────────────────────────────
-     package     * version     date (UTC) lib source
-     cachem        1.1.0       2024-05-16 [2] RSPM (R 4.4.0)
-     cli           3.6.2       2023-12-11 [2] RSPM (R 4.3.0)
-     devtools      2.4.5       2022-10-11 [2] RSPM (R 4.2.0)
-     digest        0.6.35      2024-03-11 [2] RSPM (R 4.3.0)
-     ellipsis      0.3.2       2021-04-29 [2] CRAN (R 4.1.1)
-     evaluate      0.23        2023-11-01 [2] RSPM (R 4.3.0)
-     fastmap       1.2.0       2024-05-15 [2] RSPM (R 4.4.0)
-     fs            1.6.4       2024-04-25 [2] RSPM (R 4.3.0)
-     glue          1.7.0       2024-01-09 [2] RSPM (R 4.3.0)
-     htmltools     0.5.8.1     2024-04-04 [2] RSPM (R 4.3.0)
-     htmlwidgets   1.6.4       2023-12-06 [2] RSPM (R 4.3.0)
-     httpuv        1.6.15      2024-03-26 [2] RSPM (R 4.3.0)
-     igraph      * 2.0.3       2024-03-13 [1] CRAN (R 4.4.0)
-     jsonlite      1.8.8       2023-12-04 [2] RSPM (R 4.3.0)
-     knitr         1.47        2024-05-29 [2] RSPM (R 4.4.0)
-     later         1.3.2       2023-12-06 [2] RSPM (R 4.3.0)
-     lifecycle     1.0.4       2023-11-07 [2] RSPM (R 4.3.0)
-     magrittr      2.0.3       2022-03-30 [2] RSPM (R 4.2.0)
-     memoise       2.0.1       2021-11-26 [2] RSPM (R 4.2.0)
-     mime          0.12        2021-09-28 [2] RSPM (R 4.2.0)
-     miniUI        0.1.1.1     2018-05-18 [2] CRAN (R 4.0.1)
-     pkgbuild      1.4.4       2024-03-17 [2] RSPM (R 4.3.0)
-     pkgconfig     2.0.3       2019-09-22 [2] CRAN (R 4.0.1)
-     pkgload       1.3.4       2024-01-16 [2] RSPM (R 4.3.2)
-     profvis       0.3.8       2023-05-02 [2] RSPM (R 4.2.0)
-     promises      1.3.0       2024-04-05 [2] RSPM (R 4.3.0)
-     purrr         1.0.2       2023-08-10 [2] RSPM (R 4.2.0)
-     R6            2.5.1       2021-08-19 [2] RSPM (R 4.2.0)
-     Rcpp          1.0.12      2024-01-09 [2] RSPM (R 4.3.0)
-     remotes       2.5.0       2024-03-17 [2] RSPM (R 4.3.0)
-     rgexf       * 0.17.0      2024-06-27 [1] local
-     rlang         1.1.3       2024-01-10 [2] RSPM (R 4.3.0)
-     rmarkdown     2.27        2024-05-17 [2] RSPM (R 4.4.0)
-     servr         0.30        2024-03-23 [2] RSPM (R 4.3.0)
-     sessioninfo   1.2.2       2021-12-06 [2] RSPM (R 4.2.0)
-     shiny         1.8.1.1     2024-04-02 [2] RSPM (R 4.3.0)
-     stringi       1.8.4       2024-05-06 [2] RSPM (R 4.4.0)
-     stringr       1.5.1       2023-11-14 [2] RSPM (R 4.3.0)
-     urlchecker    1.0.1       2021-11-30 [2] RSPM (R 4.2.0)
-     usethis       2.2.3       2024-02-19 [2] RSPM (R 4.3.0)
-     vctrs         0.6.5       2023-12-01 [2] RSPM (R 4.3.0)
-     xfun          0.44        2024-05-15 [2] RSPM (R 4.4.0)
-     XML           3.99-0.16.1 2024-01-22 [2] RSPM (R 4.3.0)
-     xtable        1.8-4       2019-04-21 [2] CRAN (R 4.0.1)
-     yaml          2.3.8       2023-12-11 [2] RSPM (R 4.3.0)
-
-     [1] /usr/local/lib/R/site-library
-     [2] /usr/lib/R/site-library
-     [3] /usr/lib/R/library
-
-    ──────────────────────────────────────────────────────────────────────────────

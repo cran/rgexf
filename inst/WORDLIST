@@ -1,4 +1,3 @@
-AppVeyor
 att
 attvalue
 attvalues
@@ -43,6 +42,7 @@ px
 rsdaphv
 rescaled
 rescales
+rgexf
 RGBA
 roxygen
 RXML
@@ -61,4 +61,3 @@ www
 xmlschema
 XSD
 yyyy
-
